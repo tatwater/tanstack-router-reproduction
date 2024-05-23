@@ -1,9 +1,9 @@
-import RootRoute from '@/layouts/Root'
-import AuthenticatedRoute from '@/layouts/Authenticated'
-import UnAuthenticatedRoute from '@/layouts/UnAuthenticated'
-import IndexRoute from '@/routes/Index'
-import SignInRoute from '@/routes/SignIn'
-import DashboardRoute from '@/routes/Dashboard'
+import RootRoute from '@/layouts/Root';
+import AuthenticatedRoute from '@/layouts/Authenticated';
+import UnAuthenticatedRoute from '@/layouts/UnAuthenticated';
+import IndexRoute from '@/routes/Index';
+import SignInRoute from '@/routes/SignIn';
+import DashboardRoute from '@/routes/Dashboard';
 
 const routeTree = RootRoute.addChildren([
   IndexRoute,
@@ -13,6 +13,6 @@ const routeTree = RootRoute.addChildren([
   AuthenticatedRoute.addChildren([
     DashboardRoute,
   ]),
-])
+]);
 
-export default routeTree
+export default routeTree;

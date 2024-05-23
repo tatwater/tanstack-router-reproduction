@@ -1,13 +1,13 @@
-import { useCallback, useLayoutEffect, useState } from 'react'
-import { createRoute, useNavigate, useRouter } from '@tanstack/react-router'
-import { useMutation } from '@tanstack/react-query'
-import { useForm } from 'react-hook-form'
-import z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import UnAuthenticatedRoute from '@/layouts/UnAuthenticated'
-import api from '@/lib/api'
-import { useAuth } from '@/lib/auth'
-import { isError } from '@/lib/utils'
+import { useCallback, useLayoutEffect, useState } from 'react';
+import { createRoute, useNavigate, useRouter } from '@tanstack/react-router';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import UnAuthenticatedRoute from '@/layouts/UnAuthenticated';
+import api from '@/lib/api';
+import { useAuth } from '@/lib/auth';
+import { isError } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -15,10 +15,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/Form'
+} from '@/components/Form';
 
 type SignInParams = {
-  redirect?: string
+  redirect?: string;
 }
 
 const SignInRoute = createRoute({
@@ -41,23 +41,23 @@ const signInSchema = z.object({
   password: z.string().min(1, {
     message: 'Please provide your password',
   }),
-})
+});
 
 function SignInPage() {
-  const { redirect } = SignInRoute.useSearch()
-  const navigate = useNavigate()
-  const router = useRouter()
-  const { isAuthenticated, onSignInSuccess } = useAuth()
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const { redirect } = SignInRoute.useSearch();
+  const navigate = useNavigate();
+  const router = useRouter();
+  const { isAuthenticated, onSignInSuccess } = useAuth();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginRedirect = useCallback((destination: string) => {
-    router.invalidate()
+    router.invalidate();
     navigate({
       to: destination,
       replace: true,
-    })
-  }, [navigate, router])
+    });
+  }, [navigate, router]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
@@ -66,36 +66,36 @@ function SignInPage() {
     },
     mode: 'onChange',
     resolver: zodResolver(signInSchema),
-  })
+  });
 
   const submit = useMutation({
     mutationFn: (values: z.infer<typeof signInSchema>) => {
       return api.signin({
         email: values.email,
         password: values.password,
-      })
+      });
     },
     onMutate: () => {
-      setError('')
-      setIsLoading(true)
+      setError('');
+      setIsLoading(true);
     },
     onError: (error) => {
-      console.error('Error during authentication', error)
+      console.error('Error during authentication', error);
 
       if (isError(error)) {
-        setError(error.message)
+        setError(error.message);
       }
     },
     onSuccess: async () => {
-      onSignInSuccess(loginRedirect, '/')
+      onSignInSuccess(loginRedirect, '/');
     },
     onSettled: () => {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  })
+  });
 
   const handleSubmit = (values: z.infer<typeof signInSchema>) => {
-    submit.mutate(values)
+    submit.mutate(values);
   }
 
   useLayoutEffect(() => {
@@ -104,11 +104,11 @@ function SignInPage() {
     }
 
     if (redirect) {
-      router.history.push(redirect)
+      router.history.push(redirect);
     } else {
-      router.history.push('/')
+      router.history.push('/');
     }
-  }, [isAuthenticated, redirect, router])
+  }, [isAuthenticated, redirect, router]);
 
   return (
     <div>
@@ -165,7 +165,7 @@ function SignInPage() {
         </form>
       </Form>
     </div>
-  )
+  );
 }
 
-export default SignInRoute
+export default SignInRoute;

@@ -39,50 +39,50 @@ function AuthProvider(props: {
   const isAuthenticated = isUserAuthenticated();
 
   const signOut = useCallback(async (redirect?: () => void) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    localStorage.removeItem('user')
-    await api.signout()
-    setUser(null)
+    localStorage.removeItem('user');
+    await api.signout();
+    setUser(null);
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (redirect) {
-      redirect()
+      redirect();
     }
-  }, [setIsLoading, setUser])
+  }, [setIsLoading, setUser]);
 
   const onSignInSuccess = useCallback(async (redirect: (destination: string) => void, destination: string) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    await refreshUserInStorage(setUser)
+    await refreshUserInStorage(setUser);
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (redirect) {
-      redirect(destination)
+      redirect(destination);
     }
-  }, [setIsLoading])
+  }, [setIsLoading]);
 
   const refreshUser = useCallback(() => {
-    refreshUserInStorage(setUser)
-  }, [])
+    refreshUserInStorage(setUser);
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await getCurrentSessionUserInfo()
+      const user = await getCurrentSessionUserInfo();
 
       if (user) {
-        setUser(user)
+        setUser(user);
       }
 
-      setIsLoading(false)
+      setIsLoading(false);
     }
 
     if (isLoading) {
-      fetchUser()
+      fetchUser();
     }
-  }, [isAuthenticated, isLoading, setUser])
+  }, [isAuthenticated, isLoading, setUser]);
 
   return (
     <AuthContext.Provider
@@ -98,7 +98,7 @@ function AuthProvider(props: {
     >
       {props.children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 

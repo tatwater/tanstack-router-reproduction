@@ -1,11 +1,11 @@
-import { getUrl } from '@/lib/api'
+import { getUrl } from '@/lib/api';
 
 export async function signin(props: {
   email: string;
   password: string;
 }) {
-  const url = getUrl('/auth')
-  const base64creds = btoa(`${props.email}:${props.password}`)
+  const url = getUrl('/auth');
+  const base64creds = btoa(`${props.email}:${props.password}`);
 
   return fetch(url, {
     method: 'POST',
@@ -14,16 +14,16 @@ export async function signin(props: {
       Authorization: `Basic ${base64creds}`,
     },
     credentials: 'include',
-  })
+  });
 }
 
 export async function signout() {
-  const url = getUrl('/auth/logout')
+  const url = getUrl('/auth/logout');
 
   return fetch(url, {
     method: 'POST',
     credentials: 'include',
-  })
+  });
 }
 
 export async function whoami() {

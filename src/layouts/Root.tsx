@@ -1,17 +1,17 @@
-import type { AuthContextValue } from '@/lib/auth'
+import type { AuthContextValue } from '@/lib/auth';
 
-import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
-import NotFound from '@/routes/NotFound'
-import { useAuth } from '@/lib/auth'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
+import NotFound from '@/routes/NotFound';
+import { useAuth } from '@/lib/auth';
 
 type RootContext = {
-  auth: AuthContextValue
+  auth: AuthContextValue;
 }
 
 const RootRoute = createRootRouteWithContext<RootContext>()({
   component: RootLayout,
   notFoundComponent: NotFound,
-})
+});
 
 function RootLayout() {
   const { isLoading } = useAuth();
@@ -19,12 +19,12 @@ function RootLayout() {
   if (isLoading) {
     return (
       <>Loading...</>
-    )
+    );
   }
 
   return (
     <Outlet />
-  )
+  );
 }
 
-export default RootRoute
+export default RootRoute;

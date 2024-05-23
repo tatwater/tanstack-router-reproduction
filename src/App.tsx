@@ -1,7 +1,7 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider, useAuth } from '@/lib/auth'
-import routeTree from '@/routeTree'
+import { AuthProvider, useAuth } from '@/lib/auth';
+import routeTree from '@/routeTree';
 
 const router = createRouter({
   context: {
@@ -10,7 +10,7 @@ const router = createRouter({
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
   routeTree,
-})
+});
 
 declare module '@tanstack/react-router' {
   interface Register {
@@ -29,7 +29,7 @@ function InnerApp() {
       context={{auth}}
       router={router}
     />
-  )
+  );
 }
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
         <InnerApp />
       </QueryClientProvider>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

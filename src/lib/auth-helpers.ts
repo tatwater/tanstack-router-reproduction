@@ -1,13 +1,13 @@
-import type { Dispatch, SetStateAction } from 'react'
-import type { User } from '@/types/user'
+import type { Dispatch, SetStateAction } from 'react';
+import type { User } from '@/types/user';
 
-import api from '@/lib/api'
+import api from '@/lib/api';
 
 export async function getCurrentSessionUserInfo() {
-  const response = await api.whoami()
+  const response = await api.whoami();
 
   if (response.ok) {
-    const body = await response.json()
+    const body = await response.json();
 
     const user: User = {
       id: body.data.user.id,
@@ -16,38 +16,38 @@ export async function getCurrentSessionUserInfo() {
       givenName: body.data.user.given_name,
       createdAt: body.data.user.created_at,
       updatedAt: body.data.user.updated_at,
-    }
+    };
 
-    return user
+    return user;
   }
 
-  return null
+  return null;
 }
 
 export function isUserAuthenticated() {
-  const user = loadUserFromStorage()
+  const user = loadUserFromStorage();
 
-  return !!user
+  return !!user;
 }
 
 export function loadUserFromStorage() {
-  const userStr = localStorage.getItem('user')
+  const userStr = localStorage.getItem('user');
 
   if (userStr === null) {
-    return null
+    return null;
   }
 
-  const user = JSON.parse(userStr) as User
+  const user = JSON.parse(userStr) as User;
 
-  return user
+  return user;
 }
 
 export async function refreshUserInStorage(setUserCallback: Dispatch<SetStateAction<User | null>>) {
-  const user = await getCurrentSessionUserInfo()
+  const user = await getCurrentSessionUserInfo();
 
   if (user) {
-    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  setUserCallback(user)
+  setUserCallback(user);
 }

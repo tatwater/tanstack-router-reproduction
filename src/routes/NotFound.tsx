@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 
 function NotFound() {
   return (
@@ -6,7 +6,7 @@ function NotFound() {
       <h1>Not Found</h1>
       <Link to='/signin'>Sign In</Link>
     </div>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;
