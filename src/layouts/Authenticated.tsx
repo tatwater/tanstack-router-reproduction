@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { createRoute, Outlet, redirect, useNavigate, useRouter } from '@tanstack/react-router';
 import RootRoute from '@/layouts/Root';
 import SignInRoute from '@/routes/SignIn';
@@ -26,17 +27,15 @@ function AuthenticatedLayout() {
   const router = useRouter();
   const { signOut, user } = useAuth();
 
-  const handleSignOut = () => {
-    const signOutRedirect = () => {
-      router.invalidate();
-      navigate({
-        to: SignInRoute.to,
-        replace: true,
-      });
-    }
+  const handleSignOut = useCallback(async () => {
+    await signOut();
 
-    signOut(signOutRedirect);
-  }
+    router.invalidate();
+    navigate({
+      to: SignInRoute.to,
+      replace: true,
+    });
+  }, [navigate, router, signOut]);
 
   if (!user) {
     return (

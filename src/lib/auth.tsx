@@ -19,12 +19,9 @@ import {
 export interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
-  signOut: (redirect?: () => void) => Promise<void>;
-  onSignInSuccess: (
-    redirect: (destination: string) => void,
-    destination: string,
-  ) => void;
-  refreshUser: () => void;
+  signOut: () => Promise<void>;
+  onSignInSuccess: () => Promise<void>;
+  refreshUser: () => Promise<void>;
   setUser: Dispatch<SetStateAction<User | null>>;
   user: User | null;
 }
@@ -38,7 +35,7 @@ function AuthProvider(props: {
   const [user, setUser] = useState<User | null>(() => loadUserFromStorage());
   const isAuthenticated = isUserAuthenticated();
 
-  const signOut = useCallback(async (redirect?: () => void) => {
+  const signOut = useCallback(async () => {
     setIsLoading(true);
 
     localStorage.removeItem('user');
@@ -46,26 +43,18 @@ function AuthProvider(props: {
     setUser(null);
 
     setIsLoading(false);
-
-    if (redirect) {
-      redirect();
-    }
   }, [setIsLoading, setUser]);
 
-  const onSignInSuccess = useCallback(async (redirect: (destination: string) => void, destination: string) => {
+  const onSignInSuccess = useCallback(async () => {
     setIsLoading(true);
 
     await refreshUserInStorage(setUser);
 
     setIsLoading(false);
-
-    if (redirect) {
-      redirect(destination);
-    }
   }, [setIsLoading]);
 
-  const refreshUser = useCallback(() => {
-    refreshUserInStorage(setUser);
+  const refreshUser = useCallback(async () => {
+    await refreshUserInStorage(setUser);
   }, []);
 
   useEffect(() => {

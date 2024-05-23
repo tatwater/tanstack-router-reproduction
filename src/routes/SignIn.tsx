@@ -1,10 +1,11 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { createRoute, useNavigate, useRouter } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UnAuthenticatedRoute from '@/layouts/UnAuthenticated';
+import DashboardRoute from '@/routes/Dashboard';
 import api from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { isError } from '@/lib/utils';
@@ -30,7 +31,7 @@ const SignInRoute = createRoute({
     }
   },
   component: SignInPage,
-})
+});
 
 const signInSchema = z.object({
   email: z.string().min(1, {
@@ -50,14 +51,6 @@ function SignInPage() {
   const { isAuthenticated, onSignInSuccess } = useAuth();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const loginRedirect = useCallback((destination: string) => {
-    router.invalidate();
-    navigate({
-      to: destination,
-      replace: true,
-    });
-  }, [navigate, router]);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
@@ -87,7 +80,13 @@ function SignInPage() {
       }
     },
     onSuccess: async () => {
-      onSignInSuccess(loginRedirect, '/');
+      await onSignInSuccess();
+
+      router.invalidate();
+      navigate({
+        to: DashboardRoute.to,
+        replace: true,
+      });
     },
     onSettled: () => {
       setIsLoading(false);
@@ -145,7 +144,6 @@ function SignInPage() {
                 </FormLabel>
                 <FormControl>
                   <input
-                    autoFocus
                     placeholder='password'
                     type='password'
                     {...field}
