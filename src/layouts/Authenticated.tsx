@@ -1,6 +1,6 @@
 import { createRoute, Outlet, redirect, useNavigate, useRouter } from '@tanstack/react-router';
 import RootRoute from '@/layouts/Root';
-// import SignInRoute from '@/routes/SignIn';
+import SignInRoute from '@/routes/SignIn';
 import { useAuth } from '@/lib/auth';
 
 const AuthenticatedRoute = createRoute({
@@ -11,7 +11,7 @@ const AuthenticatedRoute = createRoute({
 
     if (!context.auth.isAuthenticated) {
       throw redirect({
-        to: '/signin',  // SignInRoute.to
+        to: SignInRoute.to,
         search: {
           redirect: location.href,
         },
@@ -30,7 +30,7 @@ function AuthenticatedLayout() {
     const signOutRedirect = () => {
       router.invalidate();
       navigate({
-        to: '/signin',  // SignInRoute.to
+        to: SignInRoute.to,
         replace: true,
       });
     }

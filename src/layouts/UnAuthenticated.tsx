@@ -1,6 +1,6 @@
 import { createRoute, Outlet, redirect } from '@tanstack/react-router';
 import RootRoute from '@/layouts/Root';
-// import DashboardRoute from '@/routes/Dashboard';
+import DashboardRoute from '@/routes/Dashboard';
 
 const UnAuthenticatedRoute = createRoute({
   getParentRoute: () => RootRoute,
@@ -10,7 +10,7 @@ const UnAuthenticatedRoute = createRoute({
 
     if (context.auth.isAuthenticated) {
       throw redirect({
-        to: '/dashboard',  // DashboardRoute.to
+        to: DashboardRoute.to,
       });
     }
   },

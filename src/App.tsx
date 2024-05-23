@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 
 function InnerApp() {
   const auth = useAuth();
-  console.log('innerapp.auth', auth);
+  console.log('app.innerapp.auth', auth);
 
   return (
     <RouterProvider
